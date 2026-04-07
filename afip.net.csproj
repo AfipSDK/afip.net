@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Afip.Net</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>AfipSDK</Authors>
+    <Company>AfipSDK</Company>
+    <Description>Librería .NET para consumir los Web Services de AFIP.</Description>
+    <PackageTags>afip;afip-webservice;facturacion-electronica;argentina</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+</Project>
