@@ -29,3 +29,9 @@ obj/
 # OS files
 .DS_Store
 Thumbs.db
+
+# .NET
+.vs/
+*.DotSettings.user
+project.lock.json
+launchSettings.json
