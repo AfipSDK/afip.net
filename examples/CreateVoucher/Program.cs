@@ -1,87 +1,95 @@
+//dotnet run --project examples/CreateVoucher
+
 using System.Text.Json;
 using Afip.Net;
 using AfipClient = Afip.Net.Afip;
 
 var options = new AfipOptions
 {
-    CUIT = "20111111112",
+    CUIT = "TU_CUIT",
     Production = false,
-    AccessToken = "YOUR_ACCESS_TOKEN"
+    AccessToken = "TU_ACCESS_TOKEN",
 };
 
 var afip = new AfipClient(options);
 
-var date = DateTime.UtcNow.ToString("yyyyMMdd");
+// Punto de venta y tipo de factura
+var puntoDeVenta = 1;
+var tipoDeFactura = 6; // 6 = Factura B
+
+// Obtener el último número de factura y calcular el siguiente
+var lastVoucher = await afip.ElectronicBilling.GetLastVoucherAsync(puntoDeVenta, tipoDeFactura);
+var numeroDeFactura = lastVoucher + 1;
+
+// Concepto: 1 = Productos, 2 = Servicios, 3 = Productos y Servicios
+var concepto = 1;
+
+// Tipo de documento: 80 = CUIT, 86 = CUIL, 96 = DNI, 99 = Consumidor Final
+var tipoDeDocumento = 99;
+var numeroDeDocumento = 0;
+
+// Fecha en formato yyyyMMdd (equivalente al Date.now() con offset de timezone del JS)
+var fecha = DateTime.UtcNow.ToString("yyyyMMdd");
+
+// Importes
+var importeGravado = 100m;
+var importeExentoIva = 0m;
+var importeIva = 21m;
+
+// Condición IVA receptor: 5 = Consumidor Final
+var condicionIvaReceptor = 5;
+
+// Fechas de servicio (solo obligatorias para concepto 2 o 3)
+object? fechaServicioDesde = null;
+object? fechaServicioHasta = null;
+object? fechaVencimientoPago = null;
+
+if (concepto == 2 || concepto == 3)
+{
+    fechaServicioDesde = 20191213;
+    fechaServicioHasta = 20191213;
+    fechaVencimientoPago = 20191213;
+}
+
 var data = new Dictionary<string, object?>
 {
     ["CantReg"] = 1,
-    ["PtoVta"] = 1,
-    ["CbteTipo"] = 6,
-    ["Concepto"] = 1,
-    ["DocTipo"] = 80,
-    ["DocNro"] = 20111111112,
-    ["CbteDesde"] = 1,
-    ["CbteHasta"] = 1,
-    ["CbteFch"] = date,
-    ["ImpTotal"] = 184.05,
+    ["PtoVta"] = puntoDeVenta,
+    ["CbteTipo"] = tipoDeFactura,
+    ["Concepto"] = concepto,
+    ["DocTipo"] = tipoDeDocumento,
+    ["DocNro"] = numeroDeDocumento,
+    ["CbteDesde"] = numeroDeFactura,
+    ["CbteHasta"] = numeroDeFactura,
+    ["CbteFch"] = int.Parse(fecha),
+    ["FchServDesde"] = fechaServicioDesde,
+    ["FchServHasta"] = fechaServicioHasta,
+    ["FchVtoPago"] = fechaVencimientoPago,
+    ["ImpTotal"] = importeGravado + importeIva + importeExentoIva,
     ["ImpTotConc"] = 0,
-    ["ImpNeto"] = 150,
-    ["ImpOpEx"] = 0,
-    ["ImpIVA"] = 26.25,
-    ["ImpTrib"] = 7.8,
-    ["FchServDesde"] = null,
-    ["FchServHasta"] = null,
-    ["FchVtoPago"] = null,
+    ["ImpNeto"] = importeGravado,
+    ["ImpOpEx"] = importeExentoIva,
+    ["ImpIVA"] = importeIva,
+    ["ImpTrib"] = 0,
     ["MonId"] = "PES",
     ["MonCotiz"] = 1,
-    ["CbtesAsoc"] = new[]
-    {
-        new Dictionary<string, object?>
-        {
-            ["Tipo"] = 6,
-            ["PtoVta"] = 1,
-            ["Nro"] = 1,
-            ["Cuit"] = 20111111112
-        }
-    },
-    ["Tributos"] = new[]
-    {
-        new Dictionary<string, object?>
-        {
-            ["Id"] = 99,
-            ["Desc"] = "Ingresos Brutos",
-            ["BaseImp"] = 150,
-            ["Alic"] = 5.2,
-            ["Importe"] = 7.8
-        }
-    },
+    ["CondicionIVAReceptorId"] = condicionIvaReceptor,
     ["Iva"] = new[]
     {
         new Dictionary<string, object?>
         {
-            ["Id"] = 5,
-            ["BaseImp"] = 100,
-            ["Importe"] = 21
-        }
-    },
-    ["Opcionales"] = new[]
-    {
-        new Dictionary<string, object?>
-        {
-            ["Id"] = 17,
-            ["Valor"] = "2"
-        }
-    },
-    ["Compradores"] = new[]
-    {
-        new Dictionary<string, object?>
-        {
-            ["DocTipo"] = 80,
-            ["DocNro"] = 20111111112,
-            ["Porcentaje"] = 100
+            ["Id"] = 5, // 5 = 21%
+            ["BaseImp"] = importeGravado,
+            ["Importe"] = importeIva
         }
     }
 };
 
+var jsonOptions = new JsonSerializerOptions { WriteIndented = true };
+
 var response = await afip.ElectronicBilling.CreateVoucherAsync(data);
-Console.WriteLine(JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));
+Console.WriteLine(JsonSerializer.Serialize(new
+{
+    cae = response["CAE"],
+    vencimiento = response["CAEFchVto"]
+}, jsonOptions));
