@@ -28,7 +28,6 @@ var concepto = 1;
 var tipoDeDocumento = 99;
 var numeroDeDocumento = 0;
 
-// Fecha en formato yyyyMMdd (equivalente al Date.now() con offset de timezone del JS)
 var fecha = DateTime.UtcNow.ToString("yyyyMMdd");
 
 // Importes
