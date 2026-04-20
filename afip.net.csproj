@@ -10,7 +10,7 @@
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <RootNamespace>Afip.Net</RootNamespace>
     <PackageId>Afip.Net</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>AfipSDK</Authors>
     <Company>AfipSDK</Company>
     <Description>Librería .NET para consumir los Web Services de AFIP.</Description>
@@ -20,11 +20,14 @@
     <RepositoryUrl>https://github.com/afipsdk/afip.net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Copyright>Copyright © 2026 AfipSDK</Copyright>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="examples/**/*.cs" />
     <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
