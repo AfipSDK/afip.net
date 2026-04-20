@@ -39,6 +39,14 @@
 Con más de 100k descargas, desde el 2017, Afip SDK es la plataforma preferida entre los desarrolladores para conectarse a los web services de ARCA.
 Esta librería permite integrar fácilmente la facturación electrónica y otros servicios de ARCA en aplicaciones .NET.
 
+## Versiones soportadas
+
+| Plataforma | Versión mínima |
+|---|---|
+| .NET Framework | 4.6.1 |
+| .NET Core | 2.0 |
+| .NET | 5.0+ |
+
 ## Instalación
 
 ```bash
