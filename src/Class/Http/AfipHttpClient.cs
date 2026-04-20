@@ -34,7 +34,13 @@ internal sealed class AfipHttpClient
         }
 
         using var requestResponse = await _httpClient.SendAsync(request);
-        requestResponse.EnsureSuccessStatusCode();
+        if (!requestResponse.IsSuccessStatusCode)
+        {
+            var errorBody = await requestResponse.Content.ReadAsStringAsync();
+            throw new HttpRequestException(
+                $"Response status code does not indicate success: {(int)requestResponse.StatusCode} ({requestResponse.ReasonPhrase}). Body: {errorBody}"
+            );
+        }
 
         var response = new AfipHttpResponse(
             status: (int)requestResponse.StatusCode,
