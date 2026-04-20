@@ -16,6 +16,9 @@
     <Description>Librería .NET para consumir los Web Services de AFIP.</Description>
     <PackageTags>afip;afip-webservice;facturacion-electronica;argentina</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/afipsdk/afip.net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/afipsdk/afip.net</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
