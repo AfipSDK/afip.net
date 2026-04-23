@@ -2,7 +2,7 @@ namespace AfipSDK.Afip.Net;
 
 public sealed class Afip
 {
-    private const string SdkVersionNumber = "1.0.0";
+    private const string SdkVersionNumber = "1.1.1";
     private const string ApiBaseUrl = "https://app.afipsdk.com/api/";
     internal AfipHttpClient AdminClient { get; }
 
