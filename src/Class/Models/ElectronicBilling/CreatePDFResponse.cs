@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Afip.Net;
+namespace AfipSDK.Afip.Net;
 
 public class CreatePDFResponse
 {

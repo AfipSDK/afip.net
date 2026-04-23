@@ -1,8 +1,7 @@
 //dotnet run --project examples/CreateVoucher
 
 using System.Text.Json;
-using Afip.Net;
-using AfipClient = Afip.Net.Afip;
+using AfipSDK.Afip.Net;
 
 var options = new AfipOptions
 {
@@ -11,7 +10,7 @@ var options = new AfipOptions
     AccessToken = "TU_ACCESS_TOKEN",
 };
 
-var afip = new AfipClient(options);
+var afip = new Afip(options);
 
 // Punto de venta y tipo de factura
 var puntoDeVenta = 1;

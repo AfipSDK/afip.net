@@ -8,9 +8,9 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <RootNamespace>Afip.Net</RootNamespace>
+    <RootNamespace>AfipSDK.Afip.Net</RootNamespace>
     <PackageId>Afip.Net</PackageId>
-    <Version>1.0.4</Version>
+    <Version>1.1.0</Version>
     <Authors>AfipSDK</Authors>
     <Company>AfipSDK</Company>
     <Description>Librería .NET para consumir los Web Services de AFIP.</Description>

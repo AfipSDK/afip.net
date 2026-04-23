@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Afip.Net;
+namespace AfipSDK.Afip.Net;
 
 public sealed class ElectronicBilling : AfipWebService
 {

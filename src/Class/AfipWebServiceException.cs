@@ -1,4 +1,4 @@
-namespace Afip.Net;
+namespace AfipSDK.Afip.Net;
 
 public class AfipWebServiceException : Exception
 {

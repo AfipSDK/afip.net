@@ -30,10 +30,9 @@ dotnet add package Afip.Net
 ## Uso
 
 ```csharp
-using Afip.Net;
-using AfipClient = Afip.Net.Afip;
+using AfipSDK.Afip.Net;
 
-var afip = new AfipClient(new AfipOptions
+var afip = new Afip(new AfipOptions
 {
     CUIT = "TU_CUIT",
     Production = false,

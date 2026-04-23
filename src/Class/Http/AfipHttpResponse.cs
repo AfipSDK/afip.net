@@ -1,4 +1,4 @@
-namespace Afip.Net;
+namespace AfipSDK.Afip.Net;
 
 internal sealed class AfipHttpResponse(int status, string statusText, string data)
 {
