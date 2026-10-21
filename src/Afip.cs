@@ -11,6 +11,12 @@ public sealed class Afip
     public RegisterInscriptionProof RegisterInscriptionProof { get; }
     public RegisterScopeThirteen RegisterScopeThirteen { get; }
 
+    /// <summary>
+    /// Factura SDK: emisión de comprobantes de punta a punta (emisores, certificados, comprobantes
+    /// y webhooks). Usa el access token de Factura SDK.
+    /// </summary>
+    public FacturaSDK FacturaSDK { get; }
+
     public Afip(AfipOptions? options = null, HttpClient? httpClient = null)
     {
         Options = options ?? new AfipOptions();
@@ -24,6 +30,7 @@ public sealed class Afip
         ElectronicBilling = new ElectronicBilling(this);
         RegisterInscriptionProof = new RegisterInscriptionProof(this);
         RegisterScopeThirteen = new RegisterScopeThirteen(this);
+        FacturaSDK = new FacturaSDK(this);
     }
 
     #region Sync

@@ -87,6 +87,22 @@ Console.WriteLine($"CAE: {response["CAE"]}");
 Console.WriteLine($"Vencimiento: {response["CAEFchVto"]}");
 ```
 
+### Factura SDK
+
+La librería también incluye [Factura SDK](https://afipsdk.com/docs/facturasdk/), para emitir comprobantes de punta a punta (certificado, punto de venta, autorización en ARCA, PDF y webhooks) con el access token de un proyecto Factura SDK:
+
+```csharp
+var afip = new Afip(new AfipOptions { AccessToken = "fsk_dev_…" });
+
+// Responde enseguida con el comprobante en cola; el resultado llega a tu webhook
+var invoice = await afip.FacturaSDK.CreateInvoiceAsync(data, idempotencyKey: "venta-0001");
+
+// En tu endpoint de webhook: verifica la firma y devuelve el evento
+var evento = afip.FacturaSDK.ConstructWebhookEvent(rawBody, signatureHeader, secret);
+```
+
+Emisores, certificados, comprobantes, webhooks y automatizaciones están en `afip.FacturaSDK`, con versión sincrónica y `Async` de cada método ([ejemplo completo](examples/FacturaSdkCreateInvoice/Program.cs)). Los errores de la API llegan como `FacturaSDKException`, con `Status`, `DataErrors` y `Errors`. Si además usás los web services de Afip SDK, pasá el token de Factura SDK en `FacturaSdkAccessToken`.
+
 ## Documentación
 
 [Explorar documentación](https://docs.afipsdk.com)
