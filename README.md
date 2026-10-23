@@ -101,7 +101,7 @@ var invoice = await afip.FacturaSDK.CreateInvoiceAsync(data, idempotencyKey: "ve
 var evento = afip.FacturaSDK.ConstructWebhookEvent(rawBody, signatureHeader, secret);
 ```
 
-Emisores, certificados, comprobantes, webhooks y automatizaciones están en `afip.FacturaSDK`, con versión sincrónica y `Async` de cada método ([ejemplo completo](examples/FacturaSdkCreateInvoice/Program.cs)). Los errores de la API llegan como `FacturaSDKException`, con `Status`, `DataErrors` y `Errors`. Si además usás los web services de Afip SDK, pasá el token de Factura SDK en `FacturaSdkAccessToken`.
+Emisores, certificados, comprobantes, webhooks y automatizaciones están en `afip.FacturaSDK`, con versión sincrónica y `Async` de cada método ([ejemplo completo](examples/FacturaSdkCreateInvoice/Program.cs)). Los errores de la API llegan como `FacturaSDKException`, con `Status`, `DataErrors` y `Errors`.
 
 ## Documentación
 

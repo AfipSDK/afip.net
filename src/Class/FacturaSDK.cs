@@ -27,7 +27,7 @@ public sealed class FacturaSDK
 
     private readonly Afip afip;
 
-    /// <summary>Access token enviado en cada solicitud: FacturaSdkAccessToken, o el AccessToken de Afip.</summary>
+    /// <summary>Access token enviado en cada solicitud: el AccessToken de Afip.</summary>
     public string? AccessToken { get; }
 
     /// <summary>Ambiente informado a la API: el del token cuando es un token de Factura SDK, si no el de Production.</summary>
@@ -37,9 +37,7 @@ public sealed class FacturaSDK
     {
         this.afip = afip;
 
-        AccessToken = !string.IsNullOrWhiteSpace(afip.Options.FacturaSdkAccessToken)
-            ? afip.Options.FacturaSdkAccessToken
-            : afip.Options.AccessToken;
+        AccessToken = afip.Options.AccessToken;
 
         if (AccessToken is not null && AccessToken.StartsWith("fsk_prod_", StringComparison.Ordinal))
         {
