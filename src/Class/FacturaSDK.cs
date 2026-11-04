@@ -115,6 +115,12 @@ public sealed class FacturaSDK
     public Dictionary<string, object?> RevokeCertificate(string id)
         => RevokeCertificateAsync(id).GetAwaiter().GetResult();
 
+    public Dictionary<string, object?> RenewCertificate(string id, Dictionary<string, object?> data, bool wait = true)
+        => RenewCertificateAsync(id, data, wait).GetAwaiter().GetResult();
+
+    public void DeleteCertificate(string id)
+        => DeleteCertificateAsync(id).GetAwaiter().GetResult();
+
     public AutomationResponse AuthorizeCertificate(string id, Dictionary<string, object?> data, bool wait = true)
         => AuthorizeCertificateAsync(id, data, wait).GetAwaiter().GetResult();
 
@@ -295,13 +301,30 @@ public sealed class FacturaSDK
     public async Task<Dictionary<string, object?>> GetCertificateAsync(string id)
         => (await RequestAsync(HttpMethod.Get, $"certificates/{Uri.EscapeDataString(id)}"))!;
 
-    /// <summary>Lista los certificados, con paginación por cursor. Filtros: tax_id, status, limit, cursor.</summary>
+    /// <summary>Lista los certificados, con paginación por cursor. Filtros: tax_id, search, status, limit, cursor.</summary>
     public async Task<Dictionary<string, object?>> GetCertificatesAsync(Dictionary<string, object?>? parameters = null)
         => (await RequestAsync(HttpMethod.Get, "certificates", null, parameters))!;
 
     /// <summary>Revoca un certificado: no firma más.</summary>
     public async Task<Dictionary<string, object?>> RevokeCertificateAsync(string id)
         => (await RequestAsync(HttpMethod.Post, $"certificates/{Uri.EscapeDataString(id)}/revoke"))!;
+
+    /// <summary>
+    /// Renueva un certificado en el lugar: conserva su id, así los emisores que lo usan siguen
+    /// facturando con el nuevo. Subido (cert y key en PEM) responde el certificado. Renovado en
+    /// ARCA (source "automation", con username y password) es una automatización: con wait
+    /// devuelve la automatización terminada (id, status, data con el certificado y renewed true).
+    /// Un certificado revocado no se renueva.
+    /// </summary>
+    public async Task<Dictionary<string, object?>> RenewCertificateAsync(string id, Dictionary<string, object?> data, bool wait = true)
+        => await AutomationAsDictionaryAsync((await RequestAsync(HttpMethod.Post, $"certificates/{Uri.EscapeDataString(id)}/renew", data))!, wait);
+
+    /// <summary>
+    /// Borra un certificado: desaparece del proyecto sin revocarse en ARCA. Los emisores que lo
+    /// usaban conservan la referencia.
+    /// </summary>
+    public async Task DeleteCertificateAsync(string id)
+        => await RequestAsync(HttpMethod.Delete, $"certificates/{Uri.EscapeDataString(id)}");
 
     /// <summary>
     /// Autoriza en ARCA un certificado para el web service de facturación (wsfe), con la clave
@@ -322,7 +345,7 @@ public sealed class FacturaSDK
     public async Task<Dictionary<string, object?>> GetWebhookEndpointAsync(string id)
         => (await RequestAsync(HttpMethod.Get, $"webhook-endpoints/{Uri.EscapeDataString(id)}"))!;
 
-    /// <summary>Lista los endpoints de webhook. Filtros: status.</summary>
+    /// <summary>Lista los endpoints de webhook, con paginación por cursor. Filtros: status, limit, cursor.</summary>
     public async Task<Dictionary<string, object?>> GetWebhookEndpointsAsync(Dictionary<string, object?>? parameters = null)
         => (await RequestAsync(HttpMethod.Get, "webhook-endpoints", null, parameters))!;
 
