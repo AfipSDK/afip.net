@@ -87,6 +87,10 @@ Console.WriteLine($"CAE: {response["CAE"]}");
 Console.WriteLine($"Vencimiento: {response["CAEFchVto"]}");
 ```
 
+## Factura SDK
+
+La librería también incluye [Factura SDK](https://afipsdk.com/docs/facturasdk/), para emitir comprobantes de punta a punta (certificado, punto de venta, autorización en ARCA, PDF y webhooks).
+
 ## Documentación
 
 [Explorar documentación](https://docs.afipsdk.com)

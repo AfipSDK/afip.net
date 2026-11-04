@@ -2,7 +2,7 @@ namespace AfipSDK.Afip.Net;
 
 public sealed class Afip
 {
-    private const string SdkVersionNumber = "1.1.2";
+    private const string SdkVersionNumber = "1.3.0";
     private const string ApiBaseUrl = "https://app.afipsdk.com/api/";
     internal AfipHttpClient AdminClient { get; }
 
@@ -10,6 +10,12 @@ public sealed class Afip
     public ElectronicBilling ElectronicBilling { get; }
     public RegisterInscriptionProof RegisterInscriptionProof { get; }
     public RegisterScopeThirteen RegisterScopeThirteen { get; }
+
+    /// <summary>
+    /// Factura SDK: emisión de comprobantes de punta a punta (emisores, certificados, comprobantes
+    /// y webhooks). Usa el access token de Factura SDK.
+    /// </summary>
+    public FacturaSDK FacturaSDK { get; }
 
     public Afip(AfipOptions? options = null, HttpClient? httpClient = null)
     {
@@ -24,6 +30,7 @@ public sealed class Afip
         ElectronicBilling = new ElectronicBilling(this);
         RegisterInscriptionProof = new RegisterInscriptionProof(this);
         RegisterScopeThirteen = new RegisterScopeThirteen(this);
+        FacturaSDK = new FacturaSDK(this);
     }
 
     #region Sync
